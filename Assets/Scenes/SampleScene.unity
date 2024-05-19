@@ -175,7 +175,7 @@ MonoBehaviour:
   - {fileID: 7949931436325586143, guid: 0ef68f532ca7e4f4fb8d6f77d5fe217d, type: 3}
   gridX: 5
   gridY: 5
-  spacing: 2
+  spacing: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

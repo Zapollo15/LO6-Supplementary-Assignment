@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,13 +31,6 @@ public class GridEditor : Editor
                 Handles.color = Color.grey;
                 Handles.DrawWireCube(cellCenter, Vector3.one * gridManager.spacing);
 
-                if (e.type == EventType.ScrollWheel)
-                {
-                    currentPrefabIndex = (currentPrefabIndex + (int)e.delta.y) % gridManager.prefabs.Count;
-                    if (currentPrefabIndex < 0) currentPrefabIndex += gridManager.prefabs.Count;
-                    e.Use();
-                }
-
                 Handles.color = new Color(1, 1, 1, 0.5f);
                 Handles.DrawSolidRectangleWithOutline(
                     new Vector3[]
@@ -53,10 +44,20 @@ public class GridEditor : Editor
                     Color.grey
                 );
 
-                if (e.type == EventType.MouseDown && e.button == 0)
+                if (e.type == EventType.MouseDown)
                 {
-                    gridManager.ReplaceTile(x, y, currentPrefabIndex);
-                    e.Use();
+                    if (e.button == 0) // Left mouse button
+                    {
+                        currentPrefabIndex = (currentPrefabIndex + 1) % gridManager.prefabs.Count;
+                        gridManager.ReplaceTile(x, y, currentPrefabIndex);
+                        e.Use();
+                    }
+                    else if (e.button == 1) // Right mouse button
+                    {
+                        currentPrefabIndex = (currentPrefabIndex - 1 + gridManager.prefabs.Count) % gridManager.prefabs.Count;
+                        gridManager.ReplaceTile(x, y, currentPrefabIndex);
+                        e.Use();
+                    }
                 }
             }
         }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     public List<GameObject> prefabs; // List of available prefabs
-    public int gridX = 5; // Changed to int to properly iterate
-    public int gridY = 5; // Changed to int to properly iterate
-    public float spacing = 2f;
+    public int gridX = 5; // Number of columns
+    public int gridY = 5; // Number of rows
+    public float spacing = 2f; // Space between tiles
 
     private GameObject[,] gridObjects; // To keep track of placed objects
 
@@ -24,11 +24,17 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void ReplaceTile(int x, int y, int prefabIndex)
+    public void ReplaceTile(int x, int y, int nextPrefabIndex)
     {
         if (x < 0 || x >= gridX || y < 0 || y >= gridY) return;
 
+        GameObject currentObject = gridObjects[x, y];
+        if (currentObject != null)
+        {
+            DestroyImmediate(currentObject);
+        }
+
         Vector2 pos = new Vector2(x, y) * spacing;
-        gridObjects[x, y] = Instantiate(prefabs[prefabIndex], pos, Quaternion.identity);
+        gridObjects[x, y] = Instantiate(prefabs[nextPrefabIndex], pos, Quaternion.identity);
     }
 }
